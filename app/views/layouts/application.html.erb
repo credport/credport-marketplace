@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7 ]> <html class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	
+	<!-- Uncomment to make IE8 render like IE7 -->
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=7" /> -->
+	
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<title><%= content_for?(:title) ? yield(:title) : "Credport Example Marketplace" %></title>
+  
+	<!-- Included CSS Files -->
+	<%= stylesheet_link_tag    "application" %>
+	
+	<!-- Included JS Files  -->
+	<%= javascript_include_tag "application" %>
+  
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<div class="row">
+	  
+	    <nav class="top-bar">
+	      <ul>
+	        <!-- Title Area -->
+	        <li class="name">
+	          <h1>
+	            <a href="/">
+	              Credport Example Marketplace
+	            </a>
+	          </h1>
+	        </li>
+	        <li class="toggle-topbar"><a href="#"></a></li>
+	      </ul>
+
+	      <section>
+	        <!-- Right Nav Section -->
+	        <ul class="right">
+	          <li class="divider show-for-medium-and-up"></li>
+	         
+	          	<% if current_user %>
+	          	 <li class="has-dropdown">
+	          		<%= link_to current_user.name, user_path(current_user) %>
+	          		<ul class="dropdown">
+	          		  <li><label>Account</label></li>
+	          		  <% if !current_user.credport_uid %>
+	          		  	<li><a href="/auth/credport">Connect your Credport</a></li>
+	          		  <% end %>
+	          		  <li><%= link_to "List a new Property", new_property_path  %></li>
+	          		  <li><%= link_to "Show Profile", user_path(current_user)  %></a></li>
+	          		  <li><%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
+	          		</ul>
+	          		</li>
+	          	<% else %>
+	          		<li><%= link_to "Login", new_user_session_path  %></li>
+	          		<li class="divider show-for-medium-and-up"></li>
+	          		<li><%= link_to "Sign Up", new_user_registration_path %></li>
+	          	<% end %>
+	            
+	            
+	         
+	        </ul>
+	      </section>
+	    </nav>
+	  
+	</div>
+	<div id="container" class='row'>
+		 <%= yield %>
+	</div>
+ 
+</body>
+</html>

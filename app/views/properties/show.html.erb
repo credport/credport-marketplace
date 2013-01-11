@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <section class='seven columns'>
+    <h2 class="subheader">Property</h2>
+    
+      
+        <%= link_to image_tag(@property.image), property_path(@property)  %>
+          
+        
+      
+        <h2 class="subheader">
+          
+          <%= link_to @property.name, property_path(@property) %>
+        </h2>
+        
+        <%= simple_format @property.description %>
+    
+  </section>
+  <section class='four columns'>
+    <h2 class="subheader">Owner</h2>
+      <div class="panel" style="text-align: center;">
+        <%= link_to user_path(@property.user) do  %>
+          <img src="http://lorempixel.com/200/200/people/" alt="">
+        <% end %>
+        <h4 class="subheader"><%= link_to @property.user.name , user_path(@property.user) %></h4>
+        <% if @property.user.credport_uid %>
+          <h4 class="subheader">Credport Profile</h4>
+          <div id="credport-button">
+          </div>
+            <script type="text/javascript">
+              window.credport = {
+                baseUrl: '<%= ENV['CREDPORT_BASE_URL'] || "https://www.credport.org" %>',
+                user: {
+                  id: "<%= @property.user.credport_uid %>"
+                }
+              };
+              (function() {
+                  var script = document.createElement('script');
+                  script.src   = 'https://s3.amazonaws.com/credport-assets/assets/badge.1.1.js';
+                  script.async = true;
+                  var entry = document.getElementsByTagName('script')[0];
+                  entry.parentNode.insertBefore(script, entry);
+                })();
+            </script>
+        <% end %>
+      </div>
+    
+    
+    
+  </section>
+</div>
+
+
+
+<%= link_to 'Edit', edit_property_path(@property) %> |
+<%= link_to 'Back', properties_path %>

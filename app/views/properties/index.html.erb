@@ -1,0 +1,58 @@
+<h1>Find your place</h1>
+<section>
+  <% if !@properties.blank? %>
+  <% property = @properties.first %>
+    <div class="row">
+      <div class="six columns">
+        <%= link_to image_tag(property.image), property_path(property)%>
+      </div>
+      <div class="six columns">
+        <h2 class="subheader">
+          
+          <%= link_to property.name, property_path(property) %>
+        </h2>
+        
+        <%= simple_format property.description %>
+        <p>Go to <%= link_to property.name, property_path(property) %></p>
+      </div>
+    </div>
+  
+<% else %>
+  
+<% end %>
+</section>
+  <br>
+<section>
+  <% if !@properties.slice(1..-1).blank? %>
+    <div class="row">
+      <div class="twelve columns">
+        <ul class="block-grid four-up mobile twelve columns">
+          <% for property in @properties.slice(1..-1) %>
+            <li>
+              
+                <%= link_to property_path(property) do  %>
+                          <img src="http://lorempixel.com/600/300/city/" alt="">
+                        <% end %>
+              
+              
+                <h2 class="subheader">
+                  
+                  <%= link_to property.name, property_path(property) %>
+                </h2>
+                
+                <% Faker::Lorem.paragraphs(1).each do |paragraph| %>
+                  <p><%= paragraph %></p>
+                <% end -%>
+              
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      
+    </div>
+    
+
+  <% else %>
+    
+  <% end %>
+</section>
