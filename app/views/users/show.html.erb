@@ -1,6 +1,22 @@
 <p id="notice"><%= notice %></p>
 <div class="row">
   <section class='seven columns'>
+    <% if !@user.reviews.blank? %>
+      <h2 class="subheader">Reviews</h2>
+      <% for review in @user.reviews %>
+        <% if review.booker == @user %>
+        <!-- user was guest -->
+          <h6><%= link_to @user.name, user_path(@user) %> stayed at <%= link_to review.property.name, property_path(review.property) %>. <%= link_to review.bookee.name, user_path(review.bookee) %> said:</h6>
+          <%= simple_format review.guest_text %>
+        <% else %>
+        <!-- user was host -->
+          <h6><%= link_to @user.name, user_path(@user) %> hosted <%= link_to review.booker.name, user_path(review.booker) %> at <%= link_to review.property.name, property_path(review.property) %>. <%= link_to review.booker.name, user_path(review.booker) %> rated <%= link_to @user.name, user_path(@user) %> <%= review.host_rating %> stars and said:</h6>
+          <%= simple_format review.host_text %>
+        <% end %>
+      <% end %>
+    <% else %>
+      
+    <% end %>
     <h2 class="subheader">Properties</h2>
       <section>
         <% if !@user.properties.blank? %>

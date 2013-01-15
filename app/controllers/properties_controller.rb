@@ -16,7 +16,13 @@ class PropertiesController < ApplicationController
   # GET /properties/1.json
   def show
     @property = Property.find(params[:id])
-
+    if current_user
+      if current_user.should_review(@property)
+        @transaction = current_user.transactions_as_guest.host_not_reviewed.find_by_property_id(@property)
+      else
+        @transaction = @property.transactions.new if current_user
+      end
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @property }

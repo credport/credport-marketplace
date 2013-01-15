@@ -14,9 +14,40 @@
         </h2>
         
         <%= simple_format @property.description %>
-    
+    <% if !@property.reviews.blank? %>
+      <h3 class="">Reviews</h3>
+      <% for review in @property.reviews %>
+      <h6 class=""><%= link_to review.booker.name, user_path(review.booker) %> rated this property <%= review.host_rating %> Stars and said:</h6>
+        <%= simple_format review.host_text %>
+      <% end %>
+    <% else %>
+      
+    <% end %>
   </section>
+  
   <section class='four columns'>
+    
+      <% if current_user and current_user != @property.user and !current_user.should_review(@property) %>
+        <h2 class="subheader">Booking</h2>
+        <%= form_for [@property, @transaction] do |f| %>
+          <%= f.submit "Book this property", :class => 'button' %>
+        <% end %>
+      <% end %>
+      <% if current_user and current_user.should_review(@property) %>
+        <h2 class="subheader">Review</h2>
+        <p>You have previously booked this property. Please Review it.</p>
+        <%= form_for [@property, @transaction] do |f| %>
+          <div class="fied">
+            <%= f.label :host_rating %>
+            <%= f.select :host_rating, (1..5).to_a %>
+          </div>
+          <div class="field">
+            <%= f.label :host_text, "Same some nice things" %><br />
+            <%= f.text_area :host_text %>
+          </div>
+          <%= f.submit "Review this property", :class => 'button' %>
+        <% end %>
+      <% end %>
     <h2 class="subheader">Owner</h2>
       <div class="panel" style="text-align: center;">
         <%= link_to user_path(@property.user) do  %>
@@ -49,8 +80,3 @@
     
   </section>
 </div>
-
-
-
-<%= link_to 'Edit', edit_property_path(@property) %> |
-<%= link_to 'Back', properties_path %>

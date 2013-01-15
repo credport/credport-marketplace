@@ -1,8 +1,13 @@
 CredportMarketplace::Application.routes.draw do
-  resources :properties
+  resources :properties do
+    resources :transactions
+    resources :reviews
+  end
 
   devise_for :users
-  resources :users
+  resources :users do
+    resources :reviews
+  end
   match 'auth/:provider/callback' => 'authcallbacks#create'
 
   root :to => "properties#index"
