@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  booker_id: 1
+  bookee_id: 1
+  property_id: 1
+
+two:
+  booker_id: 1
+  bookee_id: 1
+  property_id: 1
